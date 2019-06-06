@@ -1,0 +1,16 @@
+{
+  "name": "rollup-plugin-inline-invariant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Keith Cirkel (https://keithcirkel.co.uk/)",
+  "license": "MIT",
+  "dependencies": {
+    "acorn-walk": "^6.1.1",
+    "magic-string": "^0.25.2",
+    "rollup-pluginutils": "^2.8.1"
+  }
+}
