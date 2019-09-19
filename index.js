@@ -5,6 +5,7 @@ const {relative} = require('path')
 module.exports = function transfromInvariantCalls({include, exclude, dir = ''} = {}) {
   const filter = createFilter(include, exclude)
   return {
+    name: 'inlineInvariant',
     transform(code, id) {
       if (!filter(id)) return null
       if (!code.includes('invariant(')) return null
