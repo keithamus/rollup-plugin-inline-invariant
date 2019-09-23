@@ -13,7 +13,7 @@ module.exports = function transfromInvariantCalls({include, exclude, dir = ''} =
       const magicString = new MagicString(code)
       walk.simple(ast, {
         CallExpression(node) {
-          if (node.callee.name !== 'invariant') return
+          if (!node.callee || node.callee.name !== 'invariant') return
           let message = `${relative(dir, id)}:${node.loc.start.line}`
           if (node.arguments.length === 2) {
             message = `${node.arguments[1].value} -- ${message}`
