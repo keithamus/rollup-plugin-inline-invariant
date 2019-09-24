@@ -9,7 +9,7 @@
   "author": "Keith Cirkel (https://keithcirkel.co.uk/)",
   "license": "MIT",
   "dependencies": {
-    "acorn-walk": "^6.1.1",
+    "acorn-walk": "^7.0.0",
     "magic-string": "^0.25.2",
     "rollup-pluginutils": "^2.8.1"
   }
