@@ -1,0 +1,2 @@
+invariant(window)
+invariant(console)
