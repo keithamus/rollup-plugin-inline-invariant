@@ -2,13 +2,21 @@ const walk = require('acorn-walk')
 const MagicString = require('magic-string')
 const {createFilter} = require('@rollup/pluginutils')
 const {relative} = require('path')
+const pkgJson = require('./package')
 module.exports = function transfromInvariantCalls({include, exclude, dir = ''} = {}) {
   const filter = createFilter(include, exclude)
   return {
     name: 'inlineInvariant',
+    cacheKey: `${pkgJson.name}@${pkgJson.version}`,
     transform(code, id) {
       if (!filter(id)) return null
       if (!code.includes('invariant(')) return null
+      if (this.cache.has(id)) {
+        const {code: oldCode, result} = this.cache.get(id)
+        if (code === oldCode) {
+          return result
+        }
+      }
       const ast = this.parse(code, {locations: true})
       const magicString = new MagicString(code)
       walk.simple(ast, {
@@ -23,7 +31,9 @@ module.exports = function transfromInvariantCalls({include, exclude, dir = ''} =
           magicString.prependRight(node.end, `) { throw new Error("invariant: ${message}"); }`)
         }
       })
-      return { code: magicString.toString(), map: magicString.generateMap({ hires: true }) }
+      const result = { code: magicString.toString(), map: magicString.generateMap({ hires: true }) }
+      this.cache.set(id, { code, result })
+      return result
     }
   }
 }
